@@ -1,16 +1,16 @@
 package widgets
 {
-    import starling.display.Sprite;
-    import starling.events.Event;
+    import feathers.controls.TextInput;
     import flash.events.Event;
     import flash.events.FocusEvent;
     import flash.events.MouseEvent;
+    import flash.system.Capabilities;
     import flash.text.TextField;
     import flash.text.TextFieldType;
     import flash.text.TextFormat;
-
     import starling.core.Starling;
-    import feathers.controls.TextInput;
+    import starling.display.Sprite;
+    import starling.events.Event;
 
     public class FoveaTextInput extends TextInput
     {
@@ -62,9 +62,9 @@ package widgets
             removeEventListener(starling.events.Event.ADDED_TO_STAGE, handleAdded);
             addEventListener(starling.events.Event.ADDED_TO_STAGE, handleRemoved);
 
-            // var isAndroid:Boolean = Capabilities.manufacturer.indexOf('Android') > -1;
-            // if (isAndroid) {
-            if (true) {
+            var isAndroid:Boolean = Capabilities.manufacturer.indexOf('Android') > -1;
+            if (isAndroid) {
+            // if (true) {
                 createTextField();
                 Starling.current.nativeStage.addChild(_textField);
                 isEditable = false;
