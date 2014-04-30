@@ -1,4 +1,4 @@
-package widgets
+package feathers.controls
 {
     import feathers.controls.TextInput;
     import flash.events.Event;
