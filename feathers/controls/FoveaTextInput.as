@@ -60,7 +60,7 @@ package feathers.controls
         private function handleAdded(event:starling.events.Event):void
         {
             removeEventListener(starling.events.Event.ADDED_TO_STAGE, handleAdded);
-            addEventListener(starling.events.Event.ADDED_TO_STAGE, handleRemoved);
+            addEventListener(starling.events.Event.REMOVED_FROM_STAGE, handleRemoved);
 
             var isAndroid:Boolean = Capabilities.manufacturer.indexOf('Android') > -1;
             if (isAndroid) {
@@ -74,7 +74,7 @@ package feathers.controls
 
         private function handleRemoved(event:starling.events.Event):void
         {
-            removeEventListener(starling.events.Event.ADDED_TO_STAGE, handleRemoved);
+            removeEventListener(starling.events.Event.REMOVED_FROM_STAGE, handleRemoved);
             addEventListener(starling.events.Event.ADDED_TO_STAGE, handleAdded);
             if (_textField) {
                 Starling.current.nativeStage.removeChild(_textField);
