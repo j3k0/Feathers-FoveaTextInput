@@ -11,6 +11,7 @@ package feathers.controls
     import starling.core.Starling;
     import starling.display.Sprite;
     import starling.events.Event;
+    import feathers.events.FeathersEventType;
 
     public class FoveaTextInput extends TextInput
     {
@@ -126,6 +127,7 @@ package feathers.controls
             super.text = _textField.text + "_";
             super.currentState = TextInput.STATE_FOCUSED;
             _textField.setSelection(_textField.text.length, _textField.text.length);
+            dispatchEvent(new starling.events.Event(FeathersEventType.FOCUS_IN));
         }
 
         public function handleTextFieldFocusOut(event:FocusEvent):void
@@ -133,6 +135,7 @@ package feathers.controls
             super.prompt = _savePrompt;
             super.text = _textField.text;
             super.currentState = TextInput.STATE_ENABLED;
+            dispatchEvent(new starling.events.Event(FeathersEventType.FOCUS_OUT));
         }
 
         private function updateTextField():void
