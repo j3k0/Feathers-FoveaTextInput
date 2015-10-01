@@ -53,9 +53,25 @@ package feathers.controls
         // flash.text.TextField
         private var _textField:TextField = null;
 
-        public function FoveaTextInput()
+        // Modes
+        private var _mode:int = AUTO;
+        public static const AUTO:int = 0;
+        public static const FORCED:int = 1;
+        public static const DISABLED:int = 2;
+
+        public function FoveaTextInput(mode:int = AUTO)
         {
+            _mode = mode;
             addEventListener(starling.events.Event.ADDED_TO_STAGE, handleAdded);
+        }
+
+        private function shouldOverlayTextField():Boolean {
+            if (_mode == FORCED)
+                return true;
+            if (_mode == DISABLED)
+                return false;
+            var isAndroid:Boolean = Capabilities.manufacturer.indexOf('Android') > -1;
+            return isAndroid;
         }
 
         private function handleAdded(event:starling.events.Event):void
@@ -63,9 +79,7 @@ package feathers.controls
             removeEventListener(starling.events.Event.ADDED_TO_STAGE, handleAdded);
             addEventListener(starling.events.Event.REMOVED_FROM_STAGE, handleRemoved);
 
-            var isAndroid:Boolean = Capabilities.manufacturer.indexOf('Android') > -1;
-            if (isAndroid) {
-            // if (true) {
+            if (shouldOverlayTextField()) {
                 createTextField();
                 Starling.current.nativeStage.addChild(_textField);
                 isEditable = false;
