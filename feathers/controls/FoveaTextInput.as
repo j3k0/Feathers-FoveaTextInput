@@ -4,6 +4,7 @@ package feathers.controls
     import flash.events.Event;
     import flash.events.FocusEvent;
     import flash.events.MouseEvent;
+    import flash.events.SoftKeyboardEvent;
     import flash.system.Capabilities;
     import flash.text.TextField;
     import flash.text.TextFieldType;
@@ -109,6 +110,8 @@ package feathers.controls
             _textField.addEventListener(MouseEvent.CLICK, handleTextFieldClick);
             _textField.addEventListener(FocusEvent.FOCUS_IN, handleTextFieldFocusIn);
             _textField.addEventListener(FocusEvent.FOCUS_OUT, handleTextFieldFocusOut);
+            _textField.addEventListener(SoftKeyboardEvent.SOFT_KEYBOARD_ACTIVATE, handleTextFieldSoftKOn);
+            _textField.addEventListener(SoftKeyboardEvent.SOFT_KEYBOARD_DEACTIVATE, handleTextFieldSoftKOff);
         }
 
         private function destroyTextField():void
@@ -136,20 +139,30 @@ package feathers.controls
         private var _savePrompt:String;
         public function handleTextFieldFocusIn(event:FocusEvent):void
         {
-            _savePrompt = super.prompt;
-            super.prompt = '';
-            super.text = _textField.text + "_";
-            super.currentState = TextInput.STATE_FOCUSED;
-            _textField.setSelection(_textField.text.length, _textField.text.length);
             dispatchEvent(new starling.events.Event(FeathersEventType.FOCUS_IN));
         }
 
         public function handleTextFieldFocusOut(event:FocusEvent):void
         {
+            dispatchEvent(new starling.events.Event(FeathersEventType.FOCUS_OUT));
+        }
+
+        public function handleTextFieldSoftKOn(event:SoftKeyboardEvent):void
+        {
+            _savePrompt = super.prompt;
+            super.prompt = '';
+            super.text = _textField.text + "_";
+            super.currentState = TextInput.STATE_FOCUSED;
+            _textField.setSelection(_textField.text.length, _textField.text.length);
+            //dispatchEvent(new starling.events.Event(FeathersEventType.SOFT_KEYBOARD_ACTIVATE));
+        }
+
+        public function handleTextFieldSoftKOff(event:SoftKeyboardEvent):void
+        {
             super.prompt = _savePrompt;
             super.text = _textField.text;
             super.currentState = TextInput.STATE_ENABLED;
-            dispatchEvent(new starling.events.Event(FeathersEventType.FOCUS_OUT));
+            //dispatchEvent(new starling.events.Event(FeathersEventType.SOFT_KEYBOARD_DEACTIVATE));
         }
 
         private function updateTextField():void
